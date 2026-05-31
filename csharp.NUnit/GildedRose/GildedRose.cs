@@ -16,14 +16,29 @@ public class GildedRose
     {
         foreach(Item item in Items)
         {
-            if (!IsItemName(item, "Aged Brie") && !IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
+            if(IsItemName(item, "Aged Brie") && IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
+            {
+                if (IsItemPropertyLessThan(item.Quality, 50))
+                {
+                    AddQualityAmount(item, 1);
+                    if (IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
+                        AddQualityAmount(item, SellInCondition(item));
+                }
+
+                if (IsItemPropertyLessThan(item.SellIn, 0))
+                {
+                    if (IsItemPropertyLessThan(item.Quality, 50))
+                        AddQualityAmount(item, 1); 
+                }
+            }
+            else 
             {
                 if (IsItemPropertyMoreThan(item.Quality, 0) && !IsItemName(item, "Sulfuras, Hand of Ragnaros"))
                     AddQualityAmount(item, -1);
 
                 if (!IsItemName(item, "Sulfuras, Hand of Ragnaros"))
                     AddSellInAmount(item, -1);
-                    
+
                 if (IsItemPropertyLessThan(item.SellIn, 0))
                 {
                     if (IsItemPropertyMoreThan(item.Quality, 0))
@@ -34,26 +49,7 @@ public class GildedRose
                     else
                         AddQualityAmount(item, -item.Quality);
                 }
-            }
-            else
-            {
-                if (IsItemPropertyLessThan(item.Quality, 50))
-                {
-                    AddQualityAmount(item, 1);
-                    
-                    if (IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
-                        AddQualityAmount(item, SellInCondition(item));
-                }
-
-                if (IsItemPropertyLessThan(item.SellIn, 0))
-                {
-                    if (IsItemPropertyLessThan(item.Quality, 50))
-                        AddQualityAmount(item, 1);
-
-                    
-                
-                }
-            }   
+            } 
         }
     }
     
@@ -66,7 +62,6 @@ public class GildedRose
     private void AddQualityAmount (Item item, int amount) => item.Quality += amount;
     
     private void AddSellInAmount (Item item, int amount) => item.SellIn += amount;
-
     private int SellInCondition(Item item)
     {
         if (item.SellIn < 11 || item.SellIn < 6)
