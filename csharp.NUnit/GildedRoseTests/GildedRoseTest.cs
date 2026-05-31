@@ -9,9 +9,10 @@ public class GildedRoseTest
     [Test]
     public void Foo()
     {
-        var items = new List<Item> { new Item { Name = "foo", SellIn = 0, Quality = 0 } };
+        var items = new List<Item> { new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 11, Quality = 1 } };
         var app = new GildedRose(items);
         app.UpdateQuality();
-        Assert.That(items[0].Name, Is.EqualTo("fixme"));
+        Assert.That(items[0].Quality, Is.EqualTo(2));
+        Assert.That(items[0].SellIn, Is.EqualTo(10));
     }
 }
