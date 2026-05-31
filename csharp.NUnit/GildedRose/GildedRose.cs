@@ -16,7 +16,7 @@ public class GildedRose
     {
         foreach(Item item in Items)
         {
-            if(IsItemName(item, "Aged Brie") && IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
+            if(IsItemName(item, "Aged Brie") || IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
             {
                 if (IsItemPropertyLessThan(item.Quality, 50))
                 {
@@ -53,21 +53,17 @@ public class GildedRose
         }
     }
     
-
-    private bool IsItemName(Item item, string name) => item.Name == name;
-
-    private bool IsItemPropertyLessThan(int property, int cantity) => property < cantity;
-    private bool IsItemPropertyMoreThan(int property, int cantity) => property > cantity;
-    
-    private void AddQualityAmount (Item item, int amount) => item.Quality += amount;
-    
-    private void AddSellInAmount (Item item, int amount) => item.SellIn += amount;
-    private int SellInCondition(Item item)
+    private bool IsItemName(Item item, string name) => item.Name == name; //Query
+    private bool IsItemPropertyLessThan(int property, int cantity) => property < cantity; //Query
+    private bool IsItemPropertyMoreThan(int property, int cantity) => property > cantity; //Query
+    private void AddQualityAmount (Item item, int amount) => item.Quality += amount; //Command
+    private void AddSellInAmount (Item item, int amount) => item.SellIn += amount; //Command
+    private int SellInCondition(Item item) //Query
     {
         if (item.SellIn < 11 || item.SellIn < 6)
         {
             if(IsItemPropertyLessThan(item.Quality, 50))
-                return 1;
+                return 1; 
         }
 
         return 0;
