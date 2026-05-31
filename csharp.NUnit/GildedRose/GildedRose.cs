@@ -19,66 +19,63 @@ public class GildedRose
             if (!IsItemName(item, "Aged Brie") && !IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
             {
                 if (IsItemPropertyMoreThan(item.Quality, 0) && !IsItemName(item, "Sulfuras, Hand of Ragnaros"))
-                     item.Quality = item.Quality - 1;
-                
-                if (!IsItemName(item, "Sulfuras, Hand of Ragnaros"))
-                    item.SellIn = item.SellIn - 1;
+                    AddQualityAmount(item, -1);
 
+                if (!IsItemName(item, "Sulfuras, Hand of Ragnaros"))
+                    AddSellInAmount(item, -1);
+                    
                 if (IsItemPropertyLessThan(item.SellIn, 0))
                 {
                     if (IsItemPropertyMoreThan(item.Quality, 0))
                     {
                         if (IsItemName(item, "Sulfuras, Hand of Ragnaros"))
-                        {
-                            item.Quality = item.Quality - 1;
-                        }
-                    }       
-                    else
-                    {
-                        item.Quality = item.Quality - item.Quality;
+                            AddQualityAmount(item, -1);
                     }
-                }   
+                    else
+                        AddQualityAmount(item, -item.Quality);
+                }
             }
             else
             {
                 if (IsItemPropertyLessThan(item.Quality, 50))
                 {
-                    item.Quality = item.Quality + 1;
-
+                    AddQualityAmount(item, 1);
+                    
                     if (IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
-                    {
-                        item.Quality = SellInCondition(item);
-                    }
+                        AddQualityAmount(item, SellInCondition(item));
                 }
 
                 if (IsItemPropertyLessThan(item.SellIn, 0))
                 {
                     if (IsItemPropertyLessThan(item.Quality, 50))
-                    {
-                        item.Quality = item.Quality + 1;
-                    }
+                        AddQualityAmount(item, 1);
+
+                    
                 
                 }
             }   
         }
     }
+    
 
     private bool IsItemName(Item item, string name) => item.Name == name;
 
     private bool IsItemPropertyLessThan(int property, int cantity) => property < cantity;
-    
-
     private bool IsItemPropertyMoreThan(int property, int cantity) => property > cantity;
     
+    private void AddQualityAmount (Item item, int amount) => item.Quality += amount;
+    
+    private void AddSellInAmount (Item item, int amount) => item.SellIn += amount;
+
     private int SellInCondition(Item item)
     {
         if (item.SellIn < 11 || item.SellIn < 6)
         {
             if(IsItemPropertyLessThan(item.Quality, 50))
-                return item.Quality + 1;
+                return 1;
         }
 
-        return item.Quality;
+        return 0;
     }
 
 }
