@@ -18,10 +18,26 @@ public class GildedRose
         {
             if (!IsItemName(item, "Aged Brie") && !IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
             {
-                if (IsItemPropertyMoreThan(item.Quality, 0)){
-                    if (!IsItemName(item, "Sulfuras, Hand of Ragnaros"))
-                        item.Quality = item.Quality - 1;
-                }        
+                if (IsItemPropertyMoreThan(item.Quality, 0) && !IsItemName(item, "Sulfuras, Hand of Ragnaros"))
+                     item.Quality = item.Quality - 1;
+                
+                if (!IsItemName(item, "Sulfuras, Hand of Ragnaros"))
+                    item.SellIn = item.SellIn - 1;
+
+                if (IsItemPropertyLessThan(item.SellIn, 0))
+                {
+                    if (IsItemPropertyMoreThan(item.Quality, 0))
+                    {
+                        if (IsItemName(item, "Sulfuras, Hand of Ragnaros"))
+                        {
+                            item.Quality = item.Quality - 1;
+                        }
+                    }       
+                    else
+                    {
+                        item.Quality = item.Quality - item.Quality;
+                    }
+                }   
             }
             else
             {
@@ -34,37 +50,16 @@ public class GildedRose
                         item.Quality = SellInCondition(item);
                     }
                 }
-            }
 
-            if (!IsItemName(item, "Sulfuras, Hand of Ragnaros"))
-            {
-                item.SellIn = item.SellIn - 1;
-            }
-
-            if (IsItemPropertyLessThan(item.SellIn, 0))
-            {
-                if (!IsItemName(item, "Aged Brie") && !IsItemName(item, "Backstage passes to a TAFKAL80ETC concert"))
-                {      
-                    if (IsItemPropertyMoreThan(item.Quality, 0))
-                    {
-                        if (IsItemName(item, "Sulfuras, Hand of Ragnaros"))
-                        {
-                            item.Quality = item.Quality - 1;
-                        }
-                    }       
-                    else
-                    {
-                        item.Quality = item.Quality - item.Quality;
-                    }
-                }
-                else
+                if (IsItemPropertyLessThan(item.SellIn, 0))
                 {
                     if (IsItemPropertyLessThan(item.Quality, 50))
                     {
                         item.Quality = item.Quality + 1;
                     }
+                
                 }
-            }
+            }   
         }
     }
 
