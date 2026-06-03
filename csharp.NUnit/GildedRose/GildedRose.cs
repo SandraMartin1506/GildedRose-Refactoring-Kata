@@ -58,15 +58,6 @@ public class GildedRose
     private bool IsItemPropertyMoreThan(int property, int cantity) => property > cantity; //Query
     private void AddQualityAmount (Item item, int amount) => item.Quality += amount; //Command
     private void AddSellInAmount (Item item, int amount) => item.SellIn += amount; //Command
-    private int SellInCondition(Item item) //Query
-    {
-        if (item.SellIn < 11 || item.SellIn < 6)
-        {
-            if(IsItemPropertyLessThan(item.Quality, 50))
-                return 1; 
-        }
-
-        return 0;
-    }
+    private int SellInCondition(Item item) => item.SellIn < 11 ? 2 : (item.SellIn < 6 ? 3 : 0); //Query
 
 }
